@@ -1,0 +1,38 @@
+﻿@using HireMeApp.Models.Services
+@inject LookupService MyService
+@model HireMeApp.Models.TextBlock
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="~/lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
+<script>
+    var url = '@Url.Action("DeleteP", "TextBlocks")';
+    $('#submit_btn').on('click',function(e){
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: url,
+            data:$('form').serialize(),
+        }).done(function (r) {
+            $('#Display').html(r);
+        }).fail(function (e) {
+            console.log(e.responseText);
+        });
+    });
+</script>
+@{ var infoName = MyService.GetInfoName(@Model.InfoId);
+ var langName = MyService.GetLangNameTextBlock(@Model.Id);}
+<header class="w3-container w3-blue-grey w3-center">
+    <h2>@(langName)</h2>
+</header>
+<div class="w3-center w3-container">
+    <h2>@(infoName)</h2>
+    <hr />
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
+<br />
+<br />
+@section Scripts {@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}

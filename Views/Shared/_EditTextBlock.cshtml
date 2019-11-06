@@ -1,0 +1,50 @@
+﻿@using HireMeApp.Models.Services
+@inject LookupService MyService
+@model HireMeApp.Models.TextBlock
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="~/lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
+<script>
+    var url = '@Url.Action("EditP", "TextBlocks")';
+    $('#submit_btn').on('click',function(e){
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: url,
+            data:$('form').serialize(),
+        }).done(function (r) {
+            $('#Display').html(r);
+            }).fail(function (e) {
+            console.log(e.responseText);
+        });
+    });
+</script>
+@{ var infoName = MyService.GetInfoName(@Model.InfoId);
+   var langName = MyService.GetLangNameTextBlock(@Model.Id);}
+<header class="w3-container w3-blue-grey w3-center">
+    <h2>@(langName)</h2>
+</header>
+<div class="w3-center w3-container">
+    <h2>@(infoName)</h2>
+        <hr />
+        <form asp-action="EditP">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group w3-hide">
+                <label asp-for="InfoId" class="control-label"></label>
+                <select asp-for="InfoId" class="form-control" asp-items="ViewBag.InfoId"></select>
+                <span asp-validation-for="InfoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Textblock1" class="control-label w3-hide"></label>
+                <textarea id="TextArea1" rows="5" cols="50" contenteditable="true" required="required" asp-for="Textblock1" aria-value=@Model.Textblock1 class="form-control"></textarea>
+                <span asp-validation-for="Textblock1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="w3-button w3-theme" id="submit_btn" />
+            </div>
+        </form>
+</div>
+<br />
+<br />
+@section Scripts {@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}

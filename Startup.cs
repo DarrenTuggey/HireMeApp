@@ -1,4 +1,3 @@
-using System;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using HireMeApp.Data;
@@ -9,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace HireMeApp
 {
     public class Startup
-    {   
+    {
         // This retrieves the connection string from Azure KeyVault
-        public string Secrets()
+        private static string Secrets()
         {
             string kvUri = "https://HireMeVault.vault.azure.net";
             var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
@@ -24,20 +24,23 @@ namespace HireMeApp
             return key;
         }
 
+        private readonly string _conStr = Secrets();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-        
+        private IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // Added LookupService for DI 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
             services.AddDbContext<HireMeContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(Secrets())));
+                //options.UseSqlServer(Configuration.GetConnectionString(_conStr)));
+                options.UseSqlServer(_conStr));
             services.AddTransient<LookupService>();
         }
 

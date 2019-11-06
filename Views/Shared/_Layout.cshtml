@@ -1,48 +1,193 @@
-﻿<!DOCTYPE html>
+﻿@using HireMeApp.Models.Services
+@inject LookupService MyService
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - HireMeApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <title>Lacey MSSA CAD 25</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/w3.css" />
+    <link rel="stylesheet" href="~/css/w3-theme-black.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <link href="~/css/MyStyleSheet.css" rel="stylesheet" type="text/css">
+    <script>
+        $(document).ready(function () {
+            $('.collapsible').collapsible();
+        });
+    </script>
+    <script>
+        function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+        }
+    </script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HireMeApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - HireMeApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+<!-- Side Navigation -->
+@{
+    var cSharp = MyService.GetCSharpList(1);
+    var python = MyService.GetCSharpList(2);
+    var aspnet = MyService.GetCSharpList(11);
+}
+
+<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar">
+    <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
+    <button onclick="myAccFunc('CSharp')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">C#</button>
+    <div id="CSharp" class="w3-hide">
+        @foreach (var item in cSharp)
+        {
+            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display" class="waves-effect waves-teal">@(item[0])</a>
+        }
+    </div>
+    <button onclick="myAccFunc('ASPNET')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">ASP.NET</button>
+    <div id="ASPNET" class="w3-hide">
+        @foreach (var item in aspnet)
+        {
+            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display" class="waves-effect waves-teal">@(item[0])</a>
+        }
+    </div>
+    <button onclick="myAccFunc('Python')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">Python</button>
+    <div id="Python" class="w3-hide">
+        @foreach (var item in python)
+        {
+            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display" class="waves-effect waves-teal">@(item[0])</a>
+        }
+    </div>
+</div>
+
+<!-- Pushes Content to the right -->
+<div class="w3-main" style="margin-left: 200px;">
+    
+    <!-- Header -->
+    <header class="w3-container w3-theme w3-padding" id="myHeader">
+        <button class="w3-xlarge w3-button w3-theme w3-hide-large" onclick="w3_open()">&#9776;</button>
+        <div class="w3-center">
+            <h4>Demonstration for</h4>
+            <h1 class="w3-xxxlarge w3-animate-bottom">Darren Tuggey</h1>
+            @*<div class="w3-padding-32">
+                    <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('id01').style.display = 'block'" style="font-weight: 900;">LEARN W3.CSS</button>
+                </div>*@
         </div>
+    </header>
+    <div id="Display" class="w3-center">
+    </div>
+    @*@{
+        IgnoreBody();
+    }*@
+    @RenderBody()
+    
+
+    <!-- Footer -->
+<div class="footer">
+    <footer class="w3-container w3-theme-dark w3-padding-16">
+        <p> &copy; 2019 - Lacey MSSA CAD 25 - <a asp-controller="InfoNames" asp-action="Index">Home</a></p>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+</div>
+</div>
+    <script src="~/js/starter-template.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/materialize.js"></script>
+    <script src="~/js/index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        var elem = document.querySelector('.collapsible.expandable');
+        var instance = M.Collapsible.init(elem,
+            {
+                accordion: false
+            });
+    </script>
+    <!-- Script for Sidebar, Tabs, Accordions, Progress bars and slideshows -->
+    <script>
+        //// Side navigation
+        //function w3_open() {
+        //    var x = document.getElementById("mySidebar");
+        //    x.style.width = "100%";
+        //    x.style.fontSize = "40px";
+        //    x.style.paddingTop = "10%";
+        //    x.style.display = "block";
+        //}
+        //function w3_close() {
+        //    document.getElementById("mySidebar").style.display = "none";
+        //}
+
+        // Tabs
+        function openCity(evt, cityName) {
+            var i;
+            var x = document.getElementsByClassName("city");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            var activebtn = document.getElementsByClassName("testbtn");
+            for (i = 0; i < x.length; i++) {
+                activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " w3-dark-grey";
+        }
+
+        var mybtn = document.getElementsByClassName("testbtn")[0];
+        mybtn.click();
+
+        // Accordions
+        function myAccFunc(id) {
+            var x = document.getElementById(id);
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+
+        // Slideshows
+        var slideIndex = 1;
+
+        function plusDivs(n) {
+            slideIndex = slideIndex + n;
+            showDivs(slideIndex);
+        }
+
+        function showDivs(n) {
+            var x = document.getElementsByClassName("mySlides");
+            if (n > x.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = x.length };
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            x[slideIndex - 1].style.display = "block";
+        }
+
+        showDivs(1);
+
+        // Progress Bars
+        function move() {
+            var elem = document.getElementById("myBar");
+            var width = 5;
+            var id = setInterval(frame, 10);
+            function frame() {
+                if (width == 100) {
+                    clearInterval(id);
+                } else {
+                    width++;
+                    elem.style.width = width + '%';
+                    elem.innerHTML = width * 1 + '%';
+                }
+            }
+        }
+    </script>
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

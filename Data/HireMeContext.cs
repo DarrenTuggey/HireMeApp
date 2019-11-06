@@ -23,7 +23,7 @@ namespace HireMeApp.Data
         public virtual DbSet<Picture> Picture { get; set; }
         public virtual DbSet<TextBlock> TextBlock { get; set; }
 
-        private string Secrets()
+        private static string Secrets()
         {
             string kvUri = "https://HireMeVault.vault.azure.net";
             var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
@@ -32,12 +32,14 @@ namespace HireMeApp.Data
             return key;
         }
 
+        private readonly string _conStr = Secrets();
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(Secrets());
+                optionsBuilder.UseSqlServer(_conStr);
             }
         }
 
