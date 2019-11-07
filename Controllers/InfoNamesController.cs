@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HireMeApp.Data;
 using HireMeApp.Models;
+using HireMeApp.ViewModels;
 
 namespace HireMeApp.Controllers
 {
@@ -148,6 +149,22 @@ namespace HireMeApp.Controllers
         private bool InfoNameExists(int id)
         {
             return _context.InfoName.Any(e => e.Id == id);
+        }
+
+        public ActionResult LoadNameView(int id)
+        {
+            var infoName = _context.InfoName.Where(s => s.Id == id).ToList();
+            var textBlock = _context.TextBlock.Where(s => s.InfoId == id).ToList();
+            var picture = _context.Picture.Where(s => s.InfoId == id).ToList();
+
+            var InfoVM = new InfoViewModel
+            {
+                InfoNameVM = infoName,
+                TextBlockVM = textBlock,
+                PictureVM = picture
+            };
+
+            return PartialView("_IndexName", InfoVM);
         }
     }
 }

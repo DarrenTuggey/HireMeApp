@@ -33,6 +33,19 @@
             document.getElementById("mySidebar").style.display = "none";
         }
     </script>
+    <script>
+        var url = '@Url.Action("IndexP", "Home")';
+        $(document).ready(function(e){
+                    $.ajax({
+                        type: "GET",
+                        url: url
+                    }).done(function (r) {
+                        $('#Display').html(r);
+                    }).fail(function (e) {
+                        console.log(e.responseText);
+                    });
+                });
+    </script>
 </head>
 <body>
 
@@ -49,21 +62,21 @@
     <div id="CSharp" class="w3-hide">
         @foreach (var item in cSharp)
         {
-            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display" class="waves-effect waves-teal">@(item[0])</a>
+            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
         }
     </div>
     <button onclick="myAccFunc('ASPNET')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">ASP.NET</button>
     <div id="ASPNET" class="w3-hide">
         @foreach (var item in aspnet)
         {
-            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display" class="waves-effect waves-teal">@(item[0])</a>
+            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
         }
     </div>
     <button onclick="myAccFunc('Python')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">Python</button>
     <div id="Python" class="w3-hide">
         @foreach (var item in python)
         {
-            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display" class="waves-effect waves-teal">@(item[0])</a>
+            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
         }
     </div>
 </div>
@@ -88,15 +101,14 @@
         IgnoreBody();
     }*@
     @RenderBody()
-    
-
     <!-- Footer -->
-<div class="footer">
-    <footer class="w3-container w3-theme-dark w3-padding-16">
-        <p> &copy; 2019 - Lacey MSSA CAD 25 - <a asp-controller="InfoNames" asp-action="Index">Home</a></p>
-    </footer>
+    <div class="footer">
+        <footer class="w3-container w3-theme-dark w3-padding-16">
+            <p> Hire Me Demo - Darren Tuggey - <a asp-controller="Home" asp-action="Index">Home</a></p>
+        </footer>
+    </div>
 </div>
-</div>
+
     <script src="~/js/starter-template.js"></script>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/materialize.js"></script>
@@ -188,6 +200,5 @@
         }
     </script>
     @RenderSection("Scripts", required: false)
-
 </body>
 </html>

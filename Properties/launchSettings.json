@@ -1,7 +1,7 @@
-﻿{
+{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:60732",
       "sslPort": 0
@@ -12,16 +12,20 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "KEY_VAULT_NAME": "HireMeVault",
+        "AZURE_CLIENT_SECRET": "943090c8-15a9-4103-8d47-04955859bd70",
+        "AZURE_CLIENT_ID": "2d9cbff9-8611-4839-aad4-4444f80e3fe5",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AZURE_TENANT_ID": "fc0851a8-b252-45d5-8f44-05b936929509"
       }
     },
     "HireMeApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

@@ -199,6 +199,8 @@ csx/
 # Microsoft Azure Emulator
 ecf/
 rcf/
+Properties/launchSettings.json
+
 
 # Windows Store app package directories and files
 AppPackages/
