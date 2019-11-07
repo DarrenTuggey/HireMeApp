@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HireMeApp.Data;
 using HireMeApp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace HireMeApp.Controllers
 {
@@ -52,20 +54,25 @@ namespace HireMeApp.Controllers
             return View();
         }
 
-        // POST: Pictures/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Modified create to use IFormFile to convert image to byte stream.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InfoId,Pic,ImageMimeType")] Picture picture)
+        public async Task<IActionResult> Create([Bind(include: "InfoId,Pic,ImageMimeType")] Picture picture, IFormFile image, int infoId)
         {
+            await using (var fs1 = image.OpenReadStream())
+            {
+                await using var ms1 = new MemoryStream();
+                fs1.CopyTo(ms1);
+                picture.Pic = ms1.ToArray();
+            }
+            picture.ImageMimeType = image.ContentType;
+            picture.InfoId = infoId;
             if (ModelState.IsValid)
             {
-                _context.Add(picture);
-                await _context.SaveChangesAsync();
+                _context.Picture.Add(picture);
+                await _context.SaveChangesAsync().ConfigureAwait(true);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InfoId"] = new SelectList(_context.InfoName, "Id", "Id", picture.InfoId);
             return View(picture);
         }
 
@@ -155,6 +162,21 @@ namespace HireMeApp.Controllers
         private bool PictureExists(int id)
         {
             return _context.Picture.Any(e => e.Id == id);
+        }
+
+        public FileContentResult GetImage(int id)
+        {
+
+            Picture photo = _context.FindPhotoById(id);
+
+            if (photo != null)
+            {
+                return File(photo.Pic, photo.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

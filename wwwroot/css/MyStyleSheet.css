@@ -12,6 +12,7 @@
 body {
     position: relative;
     margin: 0;
+    display: flex;
     padding-bottom: 6rem;
     min-height: 100%;
 }
@@ -22,9 +23,10 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 1rem;
+
     text-align: center;
 }
+
 
 .parallax {
     /* The image used */
@@ -91,90 +93,53 @@ body {
 #main {
     transition: margin-left .5s;
     padding: 16px;
+    /*flex-grow: 1;*/
 }
 
-/*/* Style the Image Used to Trigger the Modal */
-/*#myImg {
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
+.flex-container {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
 }
 
-    #myImg:hover {
-        opacity: 0.7;
-    }*/
+.flex-item:nth-child(1) {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+}
 
-/* The Modal (background) */
-/*.modal {*/
-    /*display: none; /* Hidden by default 
-    position: fixed; /* Stay in place 
-    z-index: 1;  Sit on top 
-    padding-top: 100px;  Location of the box 
-    left: 0;
-    top: 0;
-    width: 100%;  Full width 
-    height: 100%;  Full height 
-    overflow: auto;  Enable scroll if needed 
-    background-color: rgb(0,0,0);  Fallback color 
-    background-color: rgba(0,0,0,0.9); Black w/ opacity}
-
-/* Modal Content (Image) */
-/*.modal-content {
-    margin: auto;
-    display: block;
-    width: 100%;
-}*/
-
-/* Caption of Modal Image (Image Text) - Same Width as the Image */
-/*#caption {
-    margin: auto;
-    display: block;
-    width: 100%;
-    text-align: center;
-    color: #ccc;
-
-}*/
-
-/* Add Animation - Zoom in the Modal */
-/*.modal-content, #caption {
-    animation-name: zoom;
-    animation-duration: 0.6s;
-}*/
-
-/*@keyframes zoom {*/
-    /*from {
-        transform: scale(0)
-    }
-
-    to {
-        transform: scale(1)
-    }
-}*/
-
-/* The Close Button */
-/*.close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    color: rgb(0,0,0);
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-}*/
-
-    /*.close:hover,
-    .close:focus {
-        color: #bbb;
-        text-decoration: none;
-        cursor: pointer;
-    }*/
-
-/* 100% Image Width on Smaller Screens */
-/*@media only screen {
-    .modal-content {
-        width: 100%;
-    }
-}*/
+.flex-item:nth-child(2) {
+    -webkit-order: 1;
+    -ms-flex-order: 1;
+    order: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+}
 
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
@@ -183,6 +148,10 @@ body {
 
 .sample-image {
     width: 25%;
+}
+
+.sample-image-medium {
+    width: 50%;
 }
 
 .sample-image-large {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HireMeApp.Data;
 using HireMeApp.Models;
+using HireMeApp.ViewModels;
 
 namespace HireMeApp.Controllers
 {
@@ -19,37 +20,11 @@ namespace HireMeApp.Controllers
             _context = context;
         }
 
-        // GET: TextBlocks
-        public async Task<IActionResult> Index()
-        {
-            var hireMeContext = _context.TextBlock.Include(t => t.Info);
-            return View(await hireMeContext.ToListAsync());
-        }
-
-        // GET: TextBlocks/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var textBlock = await _context.TextBlock
-                .Include(t => t.Info)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (textBlock == null)
-            {
-                return NotFound();
-            }
-
-            return View(textBlock);
-        }
-
         // GET: TextBlocks/Create
-        public IActionResult Create()
+        public IActionResult CreateP()
         {
             ViewData["InfoId"] = new SelectList(_context.InfoName, "Id", "Id");
-            return View();
+            return PartialView("_CreateTextBlock");
         }
 
         // POST: TextBlocks/Create
@@ -57,20 +32,30 @@ namespace HireMeApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InfoId,Textblock1")] TextBlock textBlock)
+        public async Task<IActionResult> CreateP([Bind("Id,InfoId,Textblock1")] TextBlock textBlock)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(textBlock);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return PartialView("_IndexName", new InfoViewModel()
+                {
+                    InfoNameVM = _context.InfoName.Where(s => s.Id == textBlock.InfoId).ToList(),
+                    TextBlockVM = _context.TextBlock.Where(s => s.InfoId == textBlock.InfoId).ToList(),
+                    PictureVM = _context.Picture.Where(s => s.InfoId == textBlock.InfoId).ToList()
+                });
             }
             ViewData["InfoId"] = new SelectList(_context.InfoName, "Id", "Id", textBlock.InfoId);
-            return View(textBlock);
+            return PartialView("_IndexName", new InfoViewModel()
+            {
+                InfoNameVM = _context.InfoName.Where(s => s.Id == textBlock.InfoId).ToList(),
+                TextBlockVM = _context.TextBlock.Where(s => s.InfoId == textBlock.InfoId).ToList(),
+                PictureVM = _context.Picture.Where(s => s.InfoId == textBlock.InfoId).ToList()
+            });
         }
 
         // GET: TextBlocks/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> EditP(int? id)
         {
             if (id == null)
             {
@@ -83,7 +68,7 @@ namespace HireMeApp.Controllers
                 return NotFound();
             }
             ViewData["InfoId"] = new SelectList(_context.InfoName, "Id", "Id", textBlock.InfoId);
-            return View(textBlock);
+            return PartialView("_EditTextBlock", textBlock);
         }
 
         // POST: TextBlocks/Edit/5
@@ -91,7 +76,7 @@ namespace HireMeApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InfoId,Textblock1")] TextBlock textBlock)
+        public async Task<IActionResult> EditP(int id, [Bind("Id,InfoId,Textblock1")] TextBlock textBlock)
         {
             if (id != textBlock.Id)
             {
@@ -103,7 +88,7 @@ namespace HireMeApp.Controllers
                 try
                 {
                     _context.Update(textBlock);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync().ConfigureAwait(true);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,14 +101,20 @@ namespace HireMeApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return PartialView("_IndexName", new InfoViewModel()
+                {
+                    InfoNameVM = _context.InfoName.Where(s => s.Id == textBlock.InfoId).ToList(),
+                    TextBlockVM = _context.TextBlock.Where(s => s.InfoId == textBlock.InfoId).ToList(),
+                    PictureVM = _context.Picture.Where(s => s.InfoId == textBlock.InfoId).ToList()
+                });
             }
             ViewData["InfoId"] = new SelectList(_context.InfoName, "Id", "Id", textBlock.InfoId);
-            return View(textBlock);
+            return View("Error");
         }
 
         // GET: TextBlocks/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> DeleteP(int? id)
         {
             if (id == null)
             {
@@ -131,25 +122,29 @@ namespace HireMeApp.Controllers
             }
 
             var textBlock = await _context.TextBlock
-                .Include(t => t.Info)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id).ConfigureAwait(true);
             if (textBlock == null)
             {
                 return NotFound();
             }
 
-            return View(textBlock);
+            return PartialView("_DeleteTextBlock", textBlock);
         }
 
         // POST: TextBlocks/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteP")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmedP(int id)
         {
             var textBlock = await _context.TextBlock.FindAsync(id);
             _context.TextBlock.Remove(textBlock);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync().ConfigureAwait(true);
+            return PartialView("_IndexName", new InfoViewModel()
+            {
+                InfoNameVM = _context.InfoName.Where(s => s.Id == textBlock.InfoId).ToList(),
+                TextBlockVM = _context.TextBlock.Where(s => s.InfoId == textBlock.InfoId).ToList(),
+                PictureVM = _context.Picture.Where(s => s.InfoId == textBlock.InfoId).ToList()
+            });
         }
 
         private bool TextBlockExists(int id)

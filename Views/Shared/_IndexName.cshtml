@@ -50,12 +50,12 @@
         @foreach (var item3 in Model.TextBlockVM)
         {
             <div id="textBlockEdit@(item3.Id)">
-                <textarea id="textEdit@(item3.Id)" readonly="readonly" rows="5" cols="50" class="w3-center w-50">@item3.Textblock1</textarea>
+                <textarea id="textEdit@(item3.Id)" readonly="readonly" rows="5" cols="50" class="w3-center w-50">@item3.Text_block</textarea>
             </div>
             <div class="w3-center">
                 <br>
                 <a asp-controller="TextBlocks" asp-action="EditP" asp-route-id="@(item3.Id)" class="w3-button w3-theme" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Edit</a>
-                <a asp-controller="TextBlocks" asp-action="Delete" asp-route-id="@(item3.Id)" class="w3-button w3-theme">Delete</a>
+                <a asp-controller="TextBlocks" asp-action="DeleteP" asp-route-id="@(item3.Id)" class="w3-button w3-theme">Delete</a>
             </div>
 
 

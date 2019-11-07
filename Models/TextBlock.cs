@@ -7,8 +7,8 @@ namespace HireMeApp.Models
     {
         public int Id { get; set; }
         public int InfoId { get; set; }
-        public string Textblock1 { get; set; }
+        public string Text_block { get; set; }
 
-        public virtual InfoName Info { get; set; }
+       // public virtual InfoName Info { get; set; }
     }
 }

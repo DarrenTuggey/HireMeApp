@@ -32,6 +32,11 @@ namespace HireMeApp.Data
             return key;
         }
 
+        public Picture FindPhotoById(int id)
+        {
+            return Set<Picture>().Find(id);
+        }
+
         private readonly string _conStr = Secrets();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -105,16 +110,16 @@ namespace HireMeApp.Data
             {
                 entity.Property(e => e.InfoId).HasColumnName("infoId");
 
-                entity.Property(e => e.Textblock1)
+                entity.Property(e => e.Text_block)
                     .IsRequired()
                     .HasColumnName("textblock1")
                     .HasColumnType("text");
 
-                entity.HasOne(d => d.Info)
-                    .WithMany(p => p.TextBlock)
-                    .HasForeignKey(d => d.InfoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_textinfo_info");
+                //entity.HasOne(d => d.Info)
+                //    .WithMany(p => p.TextBlock)
+                //    .HasForeignKey(d => d.InfoId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_textinfo_info");
             });
 
             OnModelCreatingPartial(modelBuilder);

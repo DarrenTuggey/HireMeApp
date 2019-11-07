@@ -1,33 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Demo for Darren Tuggey";
 }
-<style>
-    .flex-container {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-around;
-        align-content: space-around;
-        align-items: stretch;
-    }
-
-    .flex-item:nth-child(1) {
-        order: 0;
-        flex: 1 1 auto;
-        align-self: auto;
-    }
-
-    .flex-item:nth-child(2) {
-        order: 1;
-        flex: 1 1 auto;
-        align-self: auto;
-    }
-</style>
+<script>
+    $('img.sample-image-medium').click(function () {
+        $(this).toggleClass("sample-image-large");
+    });
+</script>
 <div class="w3-row flex-container">
     <div class="w3-half w3-black w3-container w3-center flex-item">
         <div class="w3-padding-64 w3-center">
             <h1>About Me</h1>
-            <img src="~/Images/Untitled.png" class="w3-margin" alt="Person" style="width:50%">
+            <img src="~/Images/Untitled.png" class="w3-margin sample-image-medium" alt="Person" style="width:50%">
         </div>
         <div class="w3-left-align w3-padding-large w3-center">
             <p> Welcome to my site. This is a demonstration of skills/knowledge gained from my time at the Microsoft Software and Systems Academy Cloud Application Development cohort.</p>
@@ -51,7 +34,7 @@
     <div class="w3-half w3-blue-grey w3-container flex-item">
         <div class="w3-padding-64 w3-center">
             <h1>Why should you hire me?</h1>
-            <img src="~/Images/WH4p1zO.jpeg" class="w3-margin" style="width:50%">
+            <img src="~/Images/WH4p1zO.jpeg" class="w3-margin sample-image-medium" style="width:50%">
 
         </div>
     </div>
