@@ -1,4 +1,4 @@
-﻿html {
+﻿/*html {
     height: 100%;
     box-sizing: border-box;
 }
@@ -7,26 +7,116 @@
 *:before,
 *:after {
     box-sizing: inherit;
-}
+}*/
 
-body {
+/*body {
     position: relative;
     margin: 0;
     display: flex;
     padding-bottom: 6rem;
     min-height: 100%;
-}
+}*/
 
-
-.footer {
+/*.footer {
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
 
     text-align: center;
+}*/
+
+html, body {
+    height: 100%;
 }
 
+body {
+    text-align: center;
+    height: auto;
+    position: relative;
+    margin: 0;
+}
+
+/* Use as a section under <div "w3-main" style="margin-left: 200px;">
+        <section class="top_level_flex">*/
+.top_level_flex {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: stretch;
+    align-items: stretch;
+    height: 100%;
+}
+
+/* Use as a section directly under <section class="top_level_flex"> for the Header*/
+.first_flex_under_top {
+    height: 100%;
+    order: 0;
+    flex: 0 2 content;
+    align-self: auto;
+}
+
+/* Use as the second section directly under <section class="top_level_flex"> for the content*/
+.second_flex_under_top {
+    height: 100%;
+    order: 1;
+    flex: 1 1 auto;
+    align-self: auto;
+    width: auto;
+}
+
+/* Use as a section directly under <section class="first_flex_under_top"> for the Header*/
+.flex_under_first {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: stretch;
+    align-items: flex-start;
+}
+
+/* Use as a div directly under <section class="flex_under_first"> for the Header*/
+.header_flex {
+    flex: 1 0 0;
+}
+
+/* Use as a section directly under <section class="second_flex_under_top"> for the content*/
+.flex_under_second {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: stretch;
+    align-content: stretch;
+    align-items: stretch;
+    height: inherit;
+}
+
+/* Use as a div directly under <section class="flex_under_second"> for the left half content*/
+.left-half-content {
+    order: 0;
+    flex: 1 1 auto;
+    align-self: stretch;
+    width: 100%;
+    height: auto;
+}
+
+/* Use as a div directly under <section class="flex_under_second"> for the right half content*/
+.right-half-content {
+    order: 0;
+    flex: 1 1 auto;
+    align-self: stretch;
+    width: 100%;
+    height: auto;
+}
+
+/* Use as a div as the last item directly under <section class="top_level_flex"> for the footer*/
+.footer {
+    height: auto;
+    order: 3;
+    flex: 0 2 content;
+    align-self: auto;
+}
 
 .parallax {
     /* The image used */
@@ -44,7 +134,6 @@ body {
     max-width: 100%;
     height: auto;
 }
-
 
 @media only screen and (max-device-width: 1366px) {
     .parallax {
@@ -96,7 +185,7 @@ body {
     /*flex-grow: 1;*/
 }
 
-.flex-container {
+/*.flex-container {
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
@@ -139,7 +228,7 @@ body {
     -webkit-align-self: auto;
     -ms-flex-item-align: auto;
     align-self: auto;
-}
+}*/
 
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
