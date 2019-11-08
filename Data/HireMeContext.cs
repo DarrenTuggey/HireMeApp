@@ -115,11 +115,11 @@ namespace HireMeApp.Data
                     .HasColumnName("textblock1")
                     .HasColumnType("text");
 
-                //entity.HasOne(d => d.Info)
-                //    .WithMany(p => p.TextBlock)
-                //    .HasForeignKey(d => d.InfoId)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_textinfo_info");
+                entity.HasOne(d => d.Info)
+                    .WithMany(p => p.TextBlock)
+                    .HasForeignKey(d => d.InfoId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_textinfo_info");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -8,7 +8,7 @@
     <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lacey MSSA CAD 25</title>
+    <title>Website For Darren Tuggey</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="~/css/w3.css" />
     <link rel="stylesheet" href="~/css/w3-theme-black.css" />
@@ -36,26 +36,24 @@
     <script>
         var url = '@Url.Action("IndexP", "Home")';
         $(document).ready(function(e){
-                    $.ajax({
-                        type: "GET",
-                        url: url
-                    }).done(function (r) {
-                        $('#Display').html(r);
-                    }).fail(function (e) {
-                        console.log(e.responseText);
-                    });
-                });
+            $.ajax({
+                type: "GET",
+                url: url
+            }).done(function (r) {
+                $('#Display').html(r);
+            }).fail(function (e) {
+                console.log(e.responseText);
+            });
+        });
     </script>
 </head>
 <body>
-
 <!-- Side Navigation -->
 @{
     var cSharp = MyService.GetCSharpList(1);
     var python = MyService.GetCSharpList(2);
     var aspnet = MyService.GetCSharpList(11);
 }
-
 <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar">
     <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
     <button onclick="myAccFunc('CSharp')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">C#</button>
@@ -80,26 +78,18 @@
         }
     </div>
 </div>
-
 <!-- Pushes Content to the right -->
-<div class="w3-main" style="margin-left: 200px;">
-    
+<div class="w3-main" style="margin-left: 200px;">  
     <!-- Header -->
     <header class="w3-container w3-theme w3-padding myHeader" id="myHeader">
         <button class="w3-xlarge w3-button w3-theme w3-hide-large" onclick="w3_open()">&#9776;</button>
         <div class="w3-center">
             <h4>Demonstration for</h4>
             <h1 class="w3-xxxlarge w3-animate-bottom">Darren Tuggey</h1>
-            @*<div class="w3-padding-32">
-                    <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('id01').style.display = 'block'" style="font-weight: 900;">LEARN W3.CSS</button>
-                </div>*@
         </div>
     </header>
     <div id="Display" class="w3-center">
     </div>
-    @*@{
-        IgnoreBody();
-    }*@
     @RenderBody()
     <!-- Footer -->
     <div class="footer">
@@ -108,97 +98,74 @@
         </footer>
     </div>
 </div>
-
-    <script src="~/js/starter-template.js"></script>
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/js/materialize.js"></script>
-    <script src="~/js/index.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        var elem = document.querySelector('.collapsible.expandable');
-        var instance = M.Collapsible.init(elem,
-            {
-                accordion: false
-            });
-    </script>
-    <!-- Script for Sidebar, Tabs, Accordions, Progress bars and slideshows -->
-    <script>
-        //// Side navigation
-        //function w3_open() {
-        //    var x = document.getElementById("mySidebar");
-        //    x.style.width = "100%";
-        //    x.style.fontSize = "40px";
-        //    x.style.paddingTop = "10%";
-        //    x.style.display = "block";
-        //}
-        //function w3_close() {
-        //    document.getElementById("mySidebar").style.display = "none";
-        //}
-
-        // Tabs
-        function openCity(evt, cityName) {
-            var i;
-            var x = document.getElementsByClassName("city");
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            var activebtn = document.getElementsByClassName("testbtn");
-            for (i = 0; i < x.length; i++) {
-                activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
-            }
-            document.getElementById(cityName).style.display = "block";
-            evt.currentTarget.className += " w3-dark-grey";
+<script src="~/js/starter-template.js"></script>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/materialize.js"></script>
+<script src="~/js/index.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    var elem = document.querySelector('.collapsible.expandable');
+    var instance = M.Collapsible.init(elem,{accordion: false});
+</script>
+<!-- Script for Sidebar, Tabs, Accordions, Progress bars and slideshows -->
+<script>
+    // Tabs
+    function openCity(evt, cityName) {
+        var i;
+        var x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
         }
-
-        var mybtn = document.getElementsByClassName("testbtn")[0];
-        mybtn.click();
-
-        // Accordions
-        function myAccFunc(id) {
-            var x = document.getElementById(id);
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
+        var activebtn = document.getElementsByClassName("testbtn");
+        for (i = 0; i < x.length; i++) {
+            activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " w3-dark-grey";
+    }
+    var mybtn = document.getElementsByClassName("testbtn")[0];
+    mybtn.click();
+    // Accordions
+    function myAccFunc(id) {
+        var x = document.getElementById(id);
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+    // Slideshows
+    var slideIndex = 1;
+    function plusDivs(n) {
+        slideIndex = slideIndex + n;
+        showDivs(slideIndex);
+    }
+    function showDivs(n) {
+        var x = document.getElementsByClassName("mySlides");
+        if (n > x.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = x.length };
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        x[slideIndex - 1].style.display = "block";
+    }
+    showDivs(1);
+    // Progress Bars
+    function move() {
+        var elem = document.getElementById("myBar");
+        var width = 5;
+        var id = setInterval(frame, 10);
+        function frame() {
+            if (width == 100) {
+                clearInterval(id);
             } else {
-                x.className = x.className.replace(" w3-show", "");
+                width++;
+                elem.style.width = width + '%';
+                elem.innerHTML = width * 1 + '%';
             }
         }
-
-        // Slideshows
-        var slideIndex = 1;
-
-        function plusDivs(n) {
-            slideIndex = slideIndex + n;
-            showDivs(slideIndex);
-        }
-
-        function showDivs(n) {
-            var x = document.getElementsByClassName("mySlides");
-            if (n > x.length) { slideIndex = 1 }
-            if (n < 1) { slideIndex = x.length };
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            x[slideIndex - 1].style.display = "block";
-        }
-
-        showDivs(1);
-
-        // Progress Bars
-        function move() {
-            var elem = document.getElementById("myBar");
-            var width = 5;
-            var id = setInterval(frame, 10);
-            function frame() {
-                if (width == 100) {
-                    clearInterval(id);
-                } else {
-                    width++;
-                    elem.style.width = width + '%';
-                    elem.innerHTML = width * 1 + '%';
-                }
-            }
-        }
-    </script>
+    }
+</script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

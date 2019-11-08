@@ -13,7 +13,7 @@ namespace HireMeApp.Controllers
 {
     public class InfoNamesController : Controller
     {
-        private readonly HireMeContext _context;
+        HireMeContext _context;
 
         public InfoNamesController(HireMeContext context)
         {
@@ -154,8 +154,8 @@ namespace HireMeApp.Controllers
         public ActionResult LoadNameView(int id)
         {
             var infoName = _context.InfoName.Where(s => s.Id == id).ToList();
-            var textBlock = _context.TextBlock.Where(s => s.InfoId == id).ToList();
-            var picture = _context.Picture.Where(s => s.InfoId == id).ToList();
+            var textBlock = _context.TextBlock.Where(a => a.InfoId == id).ToList();
+            var picture = _context.Picture.Where(b => b.InfoId == id).ToList();
 
             var InfoVM = new InfoViewModel
             {
