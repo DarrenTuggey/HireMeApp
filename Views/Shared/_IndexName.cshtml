@@ -1,152 +1,46 @@
-﻿@using HireMeApp.Models.Services
+﻿@using HireMeApp.Services
 @inject LookupService MyService
 @model HireMeApp.ViewModels.InfoViewModel
-<!DOCTYPE html>
-<html>
-<head>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="~/lib/jquery/jquery.js"></script>
-    <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lacey MSSA CAD 25</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/w3.css" />
-    <link rel="stylesheet" href="~/css/w3-theme-black.css" />
-    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="assets/js/html5shiv.js"></script>
-        <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
-    <link href="~/css/MyStyleSheet.css" rel="stylesheet" type="text/css">
-    <script>
-        $('img.sample-image').click(function () {
-            $(this).toggleClass("sample-image-large");
-        });
-    </script>
-</head>
-<body>
-    @{
-        var langName = MyService.GetLangName(Model.InfoNameVM[0].LanguageId);
-    }
-    <header class="w3-container w3-blue-grey w3-center">
-        <h2>@(langName)</h2>
-    </header>
-
-    @foreach (var item1 in Model.InfoNameVM)
-    {
-        <div class="w3-padding w3-white w3-display-container">
-            <h2>@(item1.Info_Name)</h2>
-            <div class="divider"></div>
-            @foreach (var item3 in Model.TextBlockVM)
-            {
-                <div id="textBlockEdit@(item3.Id)">
-                    <textarea id="textEdit@(item3.Id)" readonly="readonly" class="w3-center">@item3.Text_block</textarea>
-                </div>
-                <div class="w3-center">
-                    <br>
-                    <a asp-controller="TextBlocks" asp-action="EditP" asp-route-id="@(item3.Id)" class="w3-button w3-theme" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Edit</a>
-                    <a asp-controller="TextBlocks" asp-action="DeleteP" asp-route-id="@(item3.Id)" class="w3-button w3-theme">Delete</a>
-                </div>
-            }
-        </div>
+<script>
+    $('img.sample-image').click(function () {
+        $(this).toggleClass("sample-image-large");
+    });
+</script>
+@{
+    var langName = MyService.GetLangName(Model.InfoNameVM[0].LanguageId);
+}
+<header class="w3-container w3-blue-grey w3-center">
+    <h2>@(langName)</h2>
+</header>
+@foreach (var item1 in Model.InfoNameVM)
+{
+    <div class="w3-padding w3-white w3-display-container">
+        <h2>@(item1.Info_Name)</h2>
         <div class="divider"></div>
-        List<int> picid = Model.PictureVM.Where(i => i.InfoId == item1.Id).Select(s => s.Id).ToList();
-        foreach (var item2 in picid)
+        @foreach (var item3 in Model.TextBlockVM)
         {
-            <img src="@Url.Action("GetImage", "Pictures", new {id = item2})" class="sample-image">
+            <div id="textBlockEdit@(item3.Id)">
+                <textarea id="textEdit@(item3.Id)" readonly="readonly" class="w3-center">@item3.Text_block</textarea>
+            </div>
             <div class="w3-center">
                 <br>
-                <a asp-controller="Pictures" asp-action="Delete" asp-route-id="@(item2)" class="w3-button w3-theme">Delete</a>
+                <a asp-controller="TextBlocks" asp-action="EditP" asp-route-id="@(item3.Id)" class="w3-button w3-theme" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Edit</a>
+                <a asp-controller="TextBlocks" asp-action="DeleteP" asp-route-id="@(item3.Id)" class="w3-button w3-theme">Delete</a>
             </div>
-            <div class="divider"></div>
         }
+    </div>
+    <div class="divider"></div>
+    List<int> picid = Model.PictureVM.Where(i => i.InfoId == item1.Id).Select(s => s.Id).ToList();
+    foreach (var item2 in picid)
+    {
+        <img src="@Url.Action("GetImage", "Pictures", new {id = item2})" class="sample-image">
+        <div class="w3-center">
+            <br>
+            <a asp-controller="Pictures" asp-action="Delete" asp-route-id="@(item2)" class="w3-button w3-theme">Delete</a>
+        </div>
+        <div class="divider"></div>
     }
-    <br /><br />
-    <script src="~/js/starter-template.js"></script>
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/js/materialize.js"></script>
-    <script src="~/js/index.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        var elem = document.querySelector('.collapsible.expandable');
-        var instance = M.Collapsible.init(elem,
-            {
-                accordion: false
-            });
-    </script>
-    <!-- Script for Sidebar, Tabs, Accordions, Progress bars and slideshows -->
-    <script>
-        // Tabs
-        function openCity(evt, cityName) {
-            var i;
-            var x = document.getElementsByClassName("city");
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            var activebtn = document.getElementsByClassName("testbtn");
-            for (i = 0; i < x.length; i++) {
-                activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
-            }
-            document.getElementById(cityName).style.display = "block";
-            evt.currentTarget.className += " w3-dark-grey";
-        }
-
-        var mybtn = document.getElementsByClassName("testbtn")[0];
-        mybtn.click();
-
-        // Accordions
-        function myAccFunc(id) {
-            var x = document.getElementById(id);
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-            }
-        }
-
-        // Slideshows
-        var slideIndex = 1;
-
-        function plusDivs(n) {
-            slideIndex = slideIndex + n;
-            showDivs(slideIndex);
-        }
-
-        function showDivs(n) {
-            var x = document.getElementsByClassName("mySlides");
-            if (n > x.length) {
-                slideIndex = 1
-            }
-            if (n < 1) {
-                slideIndex = x.length
-            };
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            x[slideIndex - 1].style.display = "block";
-        }
-
-        showDivs(1);
-
-        // Progress Bars
-        function move() {
-            var elem = document.getElementById("myBar");
-            var width = 5;
-            var id = setInterval(frame, 10);
-
-            function frame() {
-                if (width == 100) {
-                    clearInterval(id);
-                } else {
-                    width++;
-                    elem.style.width = width + '%';
-                    elem.innerHTML = width * 1 + '%';
-                }
-            }
-        }
-    </script>
-
-</body>
-</html>
+}
+<br />
+<br />
+<br />

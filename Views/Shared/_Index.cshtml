@@ -1,42 +1,48 @@
 ﻿@{
     ViewData["Title"] = "Demo for Darren Tuggey";
 }
-<link href="~/css/MyStyleSheet.css" rel="stylesheet" type="text/css">
 <script>
-    $('img.sample-image-medium').click(function () {
+    //Enlarge img on click
+    $("img.sample-image-medium").click(function () {
         $(this).toggleClass("sample-image-large");
     });
 </script>
-<div class="w3-row flex-container">
-    <div class="w3-half w3-black w3-container w3-center flex-item">
+<div style="height: 100%;" class="w3-cell-row">
+    <div class="w3-container w3-cell w3-mobile w3-black w3-center" style="width: 50%">
         <div class="w3-padding-64 w3-center">
             <h1>About Me</h1>
-            <img src="~/Images/Untitled.png" class="w3-margin sample-image-medium" alt="Person">
-        </div>
-        <div class="w3-left-align w3-padding-large w3-center">
-            <p> Welcome to my site. This is a demonstration of skills/knowledge gained from my time at the Microsoft Software and Systems Academy Cloud Application Development cohort.</p>
-        </div>
-        <div class="w3-padding-64">
-            <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-theme">Contact</button>
-            <a href="https://github.com/DarrenTuggey" class="w3-button w3-theme">Github</a>
-            <a href="~/Images/Resume_Darren.Tuggey.docx" class="w3-button w3-theme">Resume</a>
-
-            <div id="id01" class="w3-modal">
-                <div class="w3-modal-content w3-theme">
-                    <div class="w3-container w3-theme">
-                        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-theme w3-display-topright">&times;</span>
-                        <p>Email: darren.tuggey@@outlook.com</p>
-                        <p>Phone: 360-550-6001</p>
+            <div class="tooltip">
+                <img src="/Images/Untitled.png" alt="Person" class="sample-image-medium">
+                <span class="tooltiptext">Click to enlarge</span>
+                </div>
+            </div>
+            <div class="w3-padding-large w3-center">
+                <p> Welcome to my site.</p>
+                <p>This is a demonstration of skills/knowledge gained from my time at the Microsoft Software and Systems Academy Cloud Application Development cohort.</p>
+            </div>
+            <div class="w3-padding-64">
+                <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-theme">Contact</button>
+                <a href="https://www.linkedin.com/in/darrentuggey/" class="w3-button w3-theme">LinkedIn</a>
+                <a href="~/Images/Resume_Darren.Tuggey.docx" class="w3-button w3-theme">Resume</a>
+                <a href="https://github.com/DarrenTuggey" class="w3-button w3-theme">Github</a>
+                <div id="id01" class="w3-modal">
+                    <div class="w3-modal-content w3-theme">
+                        <div class="w3-container w3-theme">
+                            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-theme w3-display-topright">&times;</span>
+                            <p>Email: darren.tuggey@@outlook.com</p>
+                            <p>Phone: 360-550-6001</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="w3-half w3-blue-grey w3-container flex-item">
+    <div class="w3-cell w3-blue-grey w3-container w3-mobile w3-center"  style="width: 50%">
         <div class="w3-padding-64 w3-center">
             <h1>Why should you hire me?</h1>
-            <img src="~/Images/WH4p1zO.jpeg" class="w3-margin sample-image-medium">
-
+            <div class="tooltip">
+                <img src="~/Images/WH4p1zO.jpeg" class="sample-image-medium" alt="joke about not wanting to starve">
+                <span class="tooltiptext">Click to enlarge</span>
+            </div>
         </div>
     </div>
 </div>

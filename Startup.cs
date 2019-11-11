@@ -1,7 +1,7 @@
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using HireMeApp.Data;
-using HireMeApp.Models.Services;
+using HireMeApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Net;
+using System.Net.Mime;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using QRCoder;
 
 namespace HireMeApp
 {
@@ -42,6 +47,32 @@ namespace HireMeApp
                 //options.UseSqlServer(Configuration.GetConnectionString(_conStr)));
                 options.UseSqlServer(_conStr));
             services.AddTransient<LookupService>();
+            services.AddSingleton<AdminRegistrationTokenService>();
+            services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            IConfigurationSection cpServicesConfig = Configuration.GetSection("HireMeAppServices");
+
+
+            services.AddSingleton(new QRCodeService(new QRCodeGenerator()));
+            services.AddSingleton<AdminRegistrationTokenService>();
+
+            services.AddAuthorization(options =>
+                options.AddPolicy("Admin", policy =>
+                    policy.RequireAuthenticatedUser()
+                        .RequireClaim("IsAdmin", bool.TrueString)));
+
+            services.AddMvc()
+                .AddRazorPagesOptions(options =>
+                    options.Conventions.AuthorizePage("/Products/Edit", "Admin"));
+
+            services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,18 +86,32 @@ namespace HireMeApp
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
             app.UseStaticFiles();
-
+            app.UseCookiePolicy();
             app.UseRouting();
-
-            app.UseAuthorization();
-
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+            
+            endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
+            
+            
+            
+            
+            //app.UseAuthorization();
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
+            //});
         }
     }
 }

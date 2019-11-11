@@ -1,11 +1,13 @@
-﻿@using HireMeApp.Models.Services
+﻿@using HireMeApp.Services
 @inject LookupService MyService
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="~/lib/jquery/jquery.js"></script>
     <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/js/site.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Website For Darren Tuggey</title>
@@ -13,28 +15,16 @@
     <link rel="stylesheet" href="~/css/w3.css" />
     <link rel="stylesheet" href="~/css/w3-theme-black.css" />
     <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+    <link href="~/css/MyStyleSheet.css" rel="stylesheet" type="text/css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.js"></script>
         <script src="assets/js/respond.min.js"></script>
     <![endif]-->
-    <link href="~/css/MyStyleSheet.css" rel="stylesheet" type="text/css">
+    
     <script>
-        $(document).ready(function () {
-            $('.collapsible').collapsible();
-        });
-    </script>
-    <script>
-        function w3_open() {
-            document.getElementById("mySidebar").style.display = "block";
-        }
-
-        function w3_close() {
-            document.getElementById("mySidebar").style.display = "none";
-        }
-    </script>
-    <script>
-        var url = '@Url.Action("IndexP", "Home")';
+        //Loads the _index page when the layout is loaded.
+        @*var url = '@Url.Action("IndexP", "Home")';
         $(document).ready(function(e){
             $.ajax({
                 type: "GET",
@@ -44,17 +34,17 @@
             }).fail(function (e) {
                 console.log(e.responseText);
             });
-        });
+        });*@
     </script>
 </head>
-<body>
+<body style="height: inherit;">
 <!-- Side Navigation -->
 @{
     var cSharp = MyService.GetCSharpList(1);
     var python = MyService.GetCSharpList(2);
     var aspnet = MyService.GetCSharpList(11);
 }
-<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar">
+    <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar"> @*style="width: 200px; display: none;"*@
     <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
     <button onclick="myAccFunc('CSharp')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">C#</button>
     <div id="CSharp" class="w3-hide">
@@ -77,95 +67,30 @@
             <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
         }
     </div>
-</div>
-<!-- Pushes Content to the right -->
-<div class="w3-main" style="margin-left: 200px;">  
-    <!-- Header -->
-    <header class="w3-container w3-theme w3-padding myHeader" id="myHeader">
-        <button class="w3-xlarge w3-button w3-theme w3-hide-large" onclick="w3_open()">&#9776;</button>
-        <div class="w3-center">
-            <h4>Demonstration for</h4>
-            <h1 class="w3-xxxlarge w3-animate-bottom">Darren Tuggey</h1>
-        </div>
-    </header>
-    <div id="Display" class="w3-center">
     </div>
-    @RenderBody()
-    <!-- Footer -->
-    <div class="footer">
-        <footer class="w3-container w3-theme-dark w3-padding-16">
-            <p> Hire Me Demo - Darren Tuggey - <a asp-controller="Home" asp-action="Index">Home</a></p>
+    <!-- Pushes Content to the right -->
+    <div class="w3-main" style="margin-left: 200px;height: 100%;">
+        <!-- Header -->
+        <button class="w3-xlarge w3-button w3-theme w3-hide-large" style="float: left" onclick="w3_open()">&#9776;</button>
+        <header class="w3-container w3-theme w3-padding myHeader" id="myHeader">
+            <div class="w3-center">
+                <h4>Demonstration Website for</h4>
+                <h1 class="w3-xxxlarge w3-animate-bottom">Darren Tuggey</h1>
+            </div>
+            <div style="float: right">
+                <partial name="_LoginPartial"/>
+            </div>
+        </header>
+        <!-- Footer -->
+        <footer class="w3-row w3-theme-dark w3-bottom" style="width: 100%;width: -moz-available;width: -webkit-fill-available;">
+            <p> Website Demo for Darren Tuggey - <a asp-controller="Home" asp-action="Index">Home</a></p>
         </footer>
+        <div style="height: calc(100% - (132px + 52.5px));" class="w3-cell-row">
+            <div id="Display" style="height: inherit;" class="w3-cell w3-center ">
+                @RenderBody()
+            </div>
+        </div>
     </div>
-</div>
-<script src="~/js/starter-template.js"></script>
-<script src="~/js/jquery.min.js"></script>
-<script src="~/js/materialize.js"></script>
-<script src="~/js/index.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-    var elem = document.querySelector('.collapsible.expandable');
-    var instance = M.Collapsible.init(elem,{accordion: false});
-</script>
-<!-- Script for Sidebar, Tabs, Accordions, Progress bars and slideshows -->
-<script>
-    // Tabs
-    function openCity(evt, cityName) {
-        var i;
-        var x = document.getElementsByClassName("city");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        var activebtn = document.getElementsByClassName("testbtn");
-        for (i = 0; i < x.length; i++) {
-            activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
-        }
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " w3-dark-grey";
-    }
-    var mybtn = document.getElementsByClassName("testbtn")[0];
-    mybtn.click();
-    // Accordions
-    function myAccFunc(id) {
-        var x = document.getElementById(id);
-        if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-        } else {
-            x.className = x.className.replace(" w3-show", "");
-        }
-    }
-    // Slideshows
-    var slideIndex = 1;
-    function plusDivs(n) {
-        slideIndex = slideIndex + n;
-        showDivs(slideIndex);
-    }
-    function showDivs(n) {
-        var x = document.getElementsByClassName("mySlides");
-        if (n > x.length) { slideIndex = 1 }
-        if (n < 1) { slideIndex = x.length };
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        x[slideIndex - 1].style.display = "block";
-    }
-    showDivs(1);
-    // Progress Bars
-    function move() {
-        var elem = document.getElementById("myBar");
-        var width = 5;
-        var id = setInterval(frame, 10);
-        function frame() {
-            if (width == 100) {
-                clearInterval(id);
-            } else {
-                width++;
-                elem.style.width = width + '%';
-                elem.innerHTML = width * 1 + '%';
-            }
-        }
-    }
-</script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

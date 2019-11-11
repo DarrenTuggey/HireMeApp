@@ -11,14 +11,16 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true
-    },
-    "HireMeApp": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5000"
     }
+    
+    //,
+    //"HireMeApp": {
+    //  "commandName": "Project",
+    //  "launchBrowser": true,
+    //  "environmentVariables": {
+    //    "ASPNETCORE_ENVIRONMENT": "Development"
+    //  },
+    //  "applicationUrl": "http://localhost:5000"
+    //}
   }
 }

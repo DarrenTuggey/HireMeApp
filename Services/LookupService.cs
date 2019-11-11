@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis;
 using System.Web;
 
-namespace HireMeApp.Models.Services
+namespace HireMeApp.Services
 {
     public class LookupService
     {
