@@ -1,14 +1,14 @@
+using HireMeApp.Areas.Identity.Data;
+using HireMeApp.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using HireMeApp.Services;
-using HireMeApp.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
 namespace HireMeApp.Areas.Identity.Pages.Account.Manage
 {
@@ -17,7 +17,7 @@ namespace HireMeApp.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<HireMeAppUser> _userManager;
         private readonly ILogger<EnableAuthenticatorModel> _logger;
         private readonly UrlEncoder _urlEncoder;
-public string QrCodeAsBase64 { get; set; }  
+        public string QrCodeAsBase64 { get; set; }
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -54,18 +54,18 @@ public string QrCodeAsBase64 { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync([FromServices] QRCodeService qrCodeService)
-{
-    var user = await _userManager.GetUserAsync(User);
-    if (user == null)
-    {
-        return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-    }
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
 
-    await LoadSharedKeyAndQrCodeUriAsync(user);
-    QrCodeAsBase64 = qrCodeService.GetQRCodeAsBase64(AuthenticatorUri);
+            await LoadSharedKeyAndQrCodeUriAsync(user);
+            QrCodeAsBase64 = qrCodeService.GetQRCodeAsBase64(AuthenticatorUri);
 
-    return Page();
-}
+            return Page();
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {

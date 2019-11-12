@@ -1,12 +1,16 @@
 ﻿@using HireMeApp.Services
+@using Microsoft.AspNetCore.Identity
+@using HireMeApp.Areas.Identity.Data
+@inject SignInManager<HireMeAppUser> SignInManager
+@inject UserManager<HireMeAppUser> UserManager
 @inject LookupService MyService
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    @*<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
     <script type="text/javascript" src="~/lib/jquery/jquery.js"></script>
     <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
     <script type="text/javascript" src="~/js/site.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,9 +26,9 @@
         <script src="assets/js/respond.min.js"></script>
     <![endif]-->
     
-    <script>
+    @*<script>
         //Loads the _index page when the layout is loaded.
-        @*var url = '@Url.Action("IndexP", "Home")';
+        var url = '@Url.Action("IndexP", "Home")';
         $(document).ready(function(e){
             $.ajax({
                 type: "GET",
@@ -34,8 +38,8 @@
             }).fail(function (e) {
                 console.log(e.responseText);
             });
-        });*@
-    </script>
+        });
+    </script>*@
 </head>
 <body style="height: inherit;">
 <!-- Side Navigation -->
@@ -43,6 +47,8 @@
     var cSharp = MyService.GetCSharpList(1);
     var python = MyService.GetCSharpList(2);
     var aspnet = MyService.GetCSharpList(11);
+    IgnoreBody();
+
 }
     <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar"> @*style="width: 200px; display: none;"*@
     <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
@@ -87,7 +93,7 @@
         </footer>
         <div style="height: calc(100% - (132px + 52.5px));" class="w3-cell-row">
             <div id="Display" style="height: inherit;" class="w3-cell w3-center ">
-                @RenderBody()
+               @*@RenderBody()*@
             </div>
         </div>
     </div>

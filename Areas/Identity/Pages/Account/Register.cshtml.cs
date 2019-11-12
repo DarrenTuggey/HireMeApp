@@ -1,7 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using HireMeApp.Areas.Identity.Data;
 using HireMeApp.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +6,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace HireMeApp.Areas.Identity.Pages.Account
 {
@@ -40,20 +40,19 @@ namespace HireMeApp.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-
             [DataType(DataType.Password)]
-    [Display(Name = "Admin enrollment key")]
-    public ulong? AdminEnrollmentKey { get; set; }
+            [Display(Name = "Admin enrollment key")]
+            public ulong? AdminEnrollmentKey { get; set; }
 
             [Required]
-    [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
-    [Display(Name = "First name")]
-    public string FirstName { get; set; }
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
+            [Display(Name = "First name")]
+            public string FirstName { get; set; }
 
-    [Required]
-    [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
-    [Display(Name = "Last name")]
-    public string LastName { get; set; }
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
+            [Display(Name = "Last name")]
+            public string LastName { get; set; }
 
             [Required]
             [EmailAddress]
@@ -78,49 +77,48 @@ namespace HireMeApp.Areas.Identity.Pages.Account
         }
 
         public async Task<IActionResult> OnPostAsync(
-    [FromServices] AdminRegistrationTokenService tokenService,
-    string returnUrl = null)
-{
-    returnUrl = returnUrl ?? Url.Content("~/");
-    if (ModelState.IsValid)
-    {
-        var user = new HireMeAppUser
+        [FromServices] AdminRegistrationTokenService tokenService, string returnUrl = null)
         {
-            FirstName = Input.FirstName,
-            LastName = Input.LastName,
-            UserName = Input.Email,
-            Email = Input.Email,
-        };
-        var result = await _userManager.CreateAsync(user, Input.Password);
-        if (result.Succeeded)
-        {
-            _logger.LogInformation("User created a new account with password.");
+            returnUrl = returnUrl ?? Url.Content("~/");
+            if (ModelState.IsValid)
+            {
+                var user = new HireMeAppUser
+                {
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                };
+                var result = await _userManager.CreateAsync(user, Input.Password);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User created a new account with password.");
 
-            await _userManager.AddClaimAsync(user, 
-                new Claim("IsAdmin", 
-                    (Input.AdminEnrollmentKey == tokenService.CreationKey).ToString()));
+                    await _userManager.AddClaimAsync(user,
+                        new Claim("IsAdmin",
+                            (Input.AdminEnrollmentKey == tokenService.CreationKey).ToString()));
 
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = user.Id, code = code },
-                protocol: Request.Scheme);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { userId = user.Id, code = code },
+                        protocol: Request.Scheme);
 
-            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            return LocalRedirect(returnUrl);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl);
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return Page();
         }
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError(string.Empty, error.Description);
-        }
-    }
-
-    // If we got this far, something failed, redisplay form
-    return Page();
-}
     }
 }
