@@ -47,7 +47,7 @@
     var cSharp = MyService.GetCSharpList(1);
     var python = MyService.GetCSharpList(2);
     var aspnet = MyService.GetCSharpList(11);
-    IgnoreBody();
+    
 
 }
     <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar"> @*style="width: 200px; display: none;"*@
@@ -84,16 +84,41 @@
                 <h1 class="w3-xxxlarge w3-animate-bottom">Darren Tuggey</h1>
             </div>
             <div style="float: right">
-                <partial name="_LoginPartial"/>
+                @*<partial name="_LoginPartial"/>*@
+                <ul class="navbar-nav">
+                    @if (SignInManager.IsSignedIn(User))
+{
+    HireMeAppUser user = await UserManager.GetUserAsync(User);
+    var fullName = $"{user.FirstName} {user.LastName}";
+
+                    <li class="nav-item">
+                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Hello, @fullName!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="logoutForm" class="form-inline nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Index" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">
+                            @*<button id="logout" type="submit" class="nav-link btn btn-link text-dark">*@Logout@*</button>*@
+                        </a>
+                    </li>
+}
+else
+{
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Login</a>
+                    </li>
+}
+                </ul>
             </div>
         </header>
         <!-- Footer -->
         <footer class="w3-row w3-theme-dark w3-bottom" style="width: 100%;width: -moz-available;width: -webkit-fill-available;">
-            <p> Website Demo for Darren Tuggey - <a asp-controller="Home" asp-action="Index">Home</a></p>
+            <p> Website Demo for Darren Tuggey - <a asp-controller="Home" asp-action="Index">Home</a></p> <partial name="_CookieConsentPartial" style="float: right" />
         </footer>
         <div style="height: calc(100% - (132px + 52.5px));" class="w3-cell-row">
             <div id="Display" style="height: inherit;" class="w3-cell w3-center ">
-               @*@RenderBody()*@
+               @RenderBody()
             </div>
         </div>
     </div>

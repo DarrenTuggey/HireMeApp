@@ -47,7 +47,7 @@ namespace HireMeApp
                 //options.UseSqlServer(Configuration.GetConnectionString(_conStr)));
                 options.UseSqlServer(_conStr));
             services.AddTransient<LookupService>();
-            services.AddSingleton<AdminRegistrationTokenService>();
+           // services.AddSingleton<AdminRegistrationTokenService>();
             services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -62,10 +62,10 @@ namespace HireMeApp
             services.AddSingleton(new QRCodeService(new QRCodeGenerator()));
             services.AddSingleton<AdminRegistrationTokenService>();
 
-            services.AddAuthorization(options =>
-                options.AddPolicy("Admin", policy =>
-                    policy.RequireAuthenticatedUser()
-                        .RequireClaim("IsAdmin", bool.TrueString)));
+            //services.AddAuthorization(options =>
+            //    options.AddPolicy("Admin", policy =>
+            //        policy.RequireAuthenticatedUser()
+            //            .RequireClaim("IsAdmin", bool.TrueString)));
 
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
