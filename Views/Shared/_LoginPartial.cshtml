@@ -2,29 +2,33 @@
 @using HireMeApp.Areas.Identity.Data
 @inject SignInManager<HireMeAppUser> SignInManager
 @inject UserManager<HireMeAppUser> UserManager
-
+<script type="text/javascript" src="~/lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="~/js/site.js"></script>
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    HireMeAppUser user = await UserManager.GetUserAsync(User);
-    var fullName = $"{user.FirstName} {user.LastName}";
+    @if (SignInManager.IsSignedIn(User))
+    {
+        HireMeAppUser user = await UserManager.GetUserAsync(User);
+        var fullName = $"{user.FirstName} {user.LastName}";
 
-    <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Hello, @fullName!</a>
-    </li>
-    <li class="nav-item">
-        <a id="logoutForm" class="form-inline nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Index" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">
-            @*<button id="logout" type="submit" class="nav-link btn btn-link text-dark">*@Logout@*</button>*@
-        </a>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Login</a>
-    </li>
-}
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @fullName!</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="logout" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+            @*<form id="logoutForm" class="form-inline nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="">
+            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>*@
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>

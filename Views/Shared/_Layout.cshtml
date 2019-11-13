@@ -25,54 +25,54 @@
         <script src="assets/js/html5shiv.js"></script>
         <script src="assets/js/respond.min.js"></script>
     <![endif]-->
-    
     @*<script>
-        //Loads the _index page when the layout is loaded.
-        var url = '@Url.Action("IndexP", "Home")';
-        $(document).ready(function(e){
-            $.ajax({
-                type: "GET",
-                url: url
-            }).done(function (r) {
-                $('#Display').html(r);
-            }).fail(function (e) {
-                console.log(e.responseText);
+            //Loads the _index page when the layout is loaded.
+            var url = '@Url.Action("IndexP", "Home")';
+            $(document).ready(function(e){
+                $.ajax({
+                    type: "GET",
+                    url: url
+                }).done(function (r) {
+                    $('#Display').html(r);
+                }).fail(function (e) {
+                    console.log(e.responseText);
+                });
             });
-        });
-    </script>*@
+        </script>*@
 </head>
 <body style="height: inherit;">
-<!-- Side Navigation -->
-@{
-    var cSharp = MyService.GetCSharpList(1);
-    var python = MyService.GetCSharpList(2);
-    var aspnet = MyService.GetCSharpList(11);
     
-
-}
-    <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar"> @*style="width: 200px; display: none;"*@
-    <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
-    <button onclick="myAccFunc('CSharp')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">C#</button>
-    <div id="CSharp" class="w3-hide">
-        @foreach (var item in cSharp)
-        {
-            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
-        }
-    </div>
-    <button onclick="myAccFunc('ASPNET')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">ASP.NET</button>
-    <div id="ASPNET" class="w3-hide">
-        @foreach (var item in aspnet)
-        {
-            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
-        }
-    </div>
-    <button onclick="myAccFunc('Python')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">Python</button>
-    <div id="Python" class="w3-hide">
-        @foreach (var item in python)
-        {
-            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
-        }
-    </div>
+    <!-- Side Navigation -->
+    @{
+        var cSharp = MyService.GetCSharpList(1);
+        var python = MyService.GetCSharpList(2);
+        var aspnet = MyService.GetCSharpList(11);
+    }
+    ignore
+    <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar">
+        @*style="width: 200px; display: none;"*@
+        <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
+        <button onclick="myAccFunc('CSharp')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">C#</button>
+        <div id="CSharp" class="w3-hide">
+            @foreach (var item in cSharp)
+            {
+                <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
+            }
+        </div>
+        <button onclick="myAccFunc('ASPNET')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">ASP.NET</button>
+        <div id="ASPNET" class="w3-hide">
+            @foreach (var item in aspnet)
+            {
+                <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
+            }
+        </div>
+        <button onclick="myAccFunc('Python')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">Python</button>
+        <div id="Python" class="w3-hide">
+            @foreach (var item in python)
+            {
+                <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
+            }
+        </div>
     </div>
     <!-- Pushes Content to the right -->
     <div class="w3-main" style="margin-left: 200px;height: 100%;">
@@ -81,44 +81,16 @@
         <header class="w3-container w3-theme w3-padding myHeader" id="myHeader">
             <div class="w3-center">
                 <h4>Demonstration Website for</h4>
-                <h1 class="w3-xxxlarge w3-animate-bottom">Darren Tuggey</h1>
-            </div>
-            <div style="float: right">
-                @*<partial name="_LoginPartial"/>*@
-                <ul class="navbar-nav">
-                    @if (SignInManager.IsSignedIn(User))
-{
-    HireMeAppUser user = await UserManager.GetUserAsync(User);
-    var fullName = $"{user.FirstName} {user.LastName}";
-
-                    <li class="nav-item">
-                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Hello, @fullName!</a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="logoutForm" class="form-inline nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Index" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">
-                            @*<button id="logout" type="submit" class="nav-link btn btn-link text-dark">*@Logout@*</button>*@
-                        </a>
-                    </li>
-}
-else
-{
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">Login</a>
-                    </li>
-}
-                </ul>
+                <h1 class="w3-xxxlarge w3-animate-bottom">Darren Tuggey</h1><partial name="_LoginPartial" style="float: right" />
             </div>
         </header>
         <!-- Footer -->
         <footer class="w3-row w3-theme-dark w3-bottom" style="width: 100%;width: -moz-available;width: -webkit-fill-available;">
-            <p> Website Demo for Darren Tuggey - <a asp-controller="Home" asp-action="Index">Home</a></p> <partial name="_CookieConsentPartial" style="float: right" />
+            <p> Website Demo for Darren Tuggey - <a asp-controller="Home" asp-action="Index">Home</a></p>
         </footer>
         <div style="height: calc(100% - (132px + 52.5px));" class="w3-cell-row">
             <div id="Display" style="height: inherit;" class="w3-cell w3-center ">
-               @RenderBody()
+                @RenderBody()
             </div>
         </div>
     </div>
