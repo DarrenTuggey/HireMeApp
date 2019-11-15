@@ -8,6 +8,8 @@ function w3_close() {
     document.getElementById("mySidebar").style.display = "none";
 }
 
+
+
 // Tabs
 function openCity(evt, cityName) {
         var i;

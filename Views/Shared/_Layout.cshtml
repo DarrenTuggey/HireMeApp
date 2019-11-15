@@ -12,6 +12,7 @@
     <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
     <script type="text/javascript" src="~/js/site.js"></script>
+    <script defer="defer" type="application/javascript" src="~/js/script.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Website For Darren Tuggey</title>
@@ -20,33 +21,43 @@
     <link rel="stylesheet" href="~/css/w3-theme-black.css" />
     <link rel="stylesheet" href="~/css/font-awesome.min.css" />
     <link href="~/css/MyStyleSheet.css" rel="stylesheet" type="text/css">
+    <script>
+        //Enlarge img on click
+        $("img.sample-image-medium").click(function () {
+            $(this).toggleClass("sample-image-large");
+        });
+    </script>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.js"></script>
         <script src="assets/js/respond.min.js"></script>
     <![endif]-->
+    @*<script>
 
-    <script>
+            var url = '@Url.Action("IndexP", "Home")';
 
-        var url = '@Url.Action("IndexP", "Home")';
-
-        if ($("#Display").html().length <= 0) {
-            //Loads the _index page when the layout is loaded.
-            $(document).ready(function(e) {
-                $.ajax({
-                    type: "GET",
-                    url: url
-                }).done(function(r) {
-                    $('#Display').html(r);
-                }).fail(function(e) {
-                    console.log(e.responseText);
+            if ($("#Display").html().length <= 0) {
+                //Loads the _index page when the layout is loaded.
+                $(document).ready(function(e) {
+                    $.ajax({
+                        type: "GET",
+                        url: url
+                    }).done(function(r) {
+                        $('#Display').html(r);
+                    }).fail(function(e) {
+                        console.log(e.responseText);
+                    });
                 });
-            });
-        }
+            }
 
-    </script>
+        </script>*@
 </head>
-<body style="height: inherit;">
+<body id="body" style="opacity: 1; height: inherit;">
+    <div class="background" id="canvasContainer">
+
+        <canvas id="myCanvas"></canvas>
+    </div>
 
     <!-- Side Navigation -->
     @{
@@ -62,21 +73,21 @@
         <div id="CSharp" class="w3-hide">
             @foreach (var item in cSharp)
             {
-            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
+                <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
             }
         </div>
         <button onclick="myAccFunc('ASPNET')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">ASP.NET</button>
         <div id="ASPNET" class="w3-hide">
             @foreach (var item in aspnet)
             {
-            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
+                <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
             }
         </div>
         <button onclick="myAccFunc('Python')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">Python</button>
         <div id="Python" class="w3-hide">
             @foreach (var item in python)
             {
-            <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
+                <a class="w3-button w3-block w3-left-align" asp-action="LoadNameView" asp-controller="InfoNames" asp-route-id="@(item[1])" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#Display">@(item[0])</a>
             }
         </div>
     </div>
