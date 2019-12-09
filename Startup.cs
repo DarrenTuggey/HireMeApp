@@ -86,10 +86,11 @@ namespace HireMeApp
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseAuthorization();
+            
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseRouting();
+            app.UseAuthorization();
             app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
